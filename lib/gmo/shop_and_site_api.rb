@@ -103,6 +103,40 @@ module GMO
         post_request name, options
       end
 
+      # 自動売上定義を登録する（口座振替）
+      ### @params ###
+      # RecurringID
+      # Amount
+      # Tax
+      # ChargeMonth
+      # ChargeStartDate
+      # ChargeStopDate
+      # MemberID
+      # PrintStr
+      # ClientField1
+      # ClientField2
+      # ClientField3
+      ### @return ###
+      # ShopID
+      # RecurringID
+      # Amount
+      # Tax
+      # ChargeDay
+      # ChargeMonth
+      # ChargeStartDate
+      # ChargeStopDate
+      # NextChargeDate
+      # Method
+      # SiteID
+      # MemberID
+      # PrintStr
+      def register_recurring_accounttrans(option = {})
+        name = "RegisterRecurringAccounttrans.idPass"
+        required = [:recurring_id, :amount, :member_id, :print_str]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
       private
 
         def api_call(name, args = {}, verb = "post", options = {})

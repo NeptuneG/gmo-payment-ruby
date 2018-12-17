@@ -475,6 +475,150 @@ module GMO
         post_request name, options
       end
 
+      # 自動売上定義を登録する（クレジットカード）
+      ### @params ###
+      # RecurringID
+      # Amount
+      # Tax
+      # ChargeDay
+      # ChargeMonth
+      # ChargeStartDate
+      # ChargeStopDate
+      # RegistType
+      # SiteID
+      # SitePass
+      # MemberID
+      # CardNo
+      # Expire
+      # SrcOrderID
+      # Token
+      # ClientField1
+      # ClientField2
+      # ClientField3
+      ### @return ###
+      # ShopID
+      # RecurringID
+      # Amount
+      # Tax
+      # ChargeDay
+      # ChargeMonth
+      # ChargeStartDate
+      # ChargeStopDate
+      # NextChargeDate
+      # Method
+      # SiteID
+      # MemberID
+      # CardNo
+      # Expire
+      def register_recurring_credit(options = {})
+        name = "RegisterRecurringCredit.idPass"
+        required = case options[:regist_type]
+                   when '1'
+                     %i[recurring_id charge_day amount regist_type site_id site_pass member_id]
+                   when '2'
+                     %i[recurring_id charge_day amount regist_type card_no expire]
+                   when '3'
+                     %i[recurring_id charge_day amount regist_type src_order_id]
+                   when '4'
+                     %i[recurring_id charge_day amount regist_type token]
+                   end
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 自動売上定義を解除する
+      ### @params ###
+      # RecurringID
+      ### @return ###
+      # ShopID
+      # RecurringID
+      # Amount
+      # Tax
+      # ChargeDay
+      # ChargeMonth
+      # ChargeStartDate
+      # ChargeStopDate
+      # NextChargeDate
+      # Method
+      # SiteID
+      # MemberID
+      # CardNo
+      # Expire
+      # PrintStr
+      def unregister_recurring(options = {})
+        name = "UnregisterRecurring.idPass"
+        required = [:recurring_id]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 自動売上定義を変更する
+      ### @params ###
+      # RecurringID
+      # Amount
+      # Tax
+      ### @return ###
+      # ShopID
+      # RecurringID
+      # Amount
+      # Tax
+      # ChargeDay
+      # ChargeMonth
+      # ChargeStartDate
+      # ChargeStopDate
+      # NextChargeDate
+      # Method
+      # SiteID
+      # MemberID
+      # CardNo
+      # Expire
+      # PrintStr
+      def change_recurring(options = {})
+        name = "ChangeRecurring.idPass"
+        required = [:recurring_id, :amount]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 自動売上処理結果を参照する
+      ### @params ###
+      # RecurringID
+      ### @return ###
+      # Method
+      # ShopID
+      # RecurringID
+      # OrderID
+      # ChargeDate
+      # Status
+      # Amount
+      # Tax
+      # NextChargeDate
+      # AccessID
+      # AccessPass
+      # Forward
+      # ApprovalNo
+      # ChargeErrCode
+      # ChargeErrInfo
+      # ProcessDate
+      def search_recurring_result(options = {})
+        name = "SearchRecurringResult.idPass"
+        required = [:recurring_id]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
+      # 自動売上処理結果ファイルを参照する
+      ### @params ###
+      # Method
+      # ChargeDate
+      ### @return ###
+      def search_recurring_result_file(options = {})
+        name = "SearchRecurringResultFile.idPass"
+        required = [:method, :charge_date]
+        assert_required_options(required, options)
+        post_request name, options
+      end
+
       private
 
         def api_call(name, args = {}, verb = "post", options = {})
